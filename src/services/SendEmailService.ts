@@ -5,8 +5,8 @@
  */
 
 import 'dotenv/config';
-import nodemailer from "nodemailer"
-import { IDataEmail } from "../interfaces"
+import nodemailer from "nodemailer";
+import { IDataEmail } from "../interfaces";
 
 class SendEmailService {
 
@@ -17,8 +17,7 @@ class SendEmailService {
     private source: string | undefined;
     private subject: string;
     private message: string;
-
-    public readonly destination: string | undefined;
+    public  destination: string;
 
     // construtor
     constructor({ subject, message }: IDataEmail) {
@@ -33,7 +32,12 @@ class SendEmailService {
         this.source = process.env.SMTP_FROM;
         this.subject = subject;
         this.message = message;
-        this.destination = process.env.SMTP_TO;
+
+        if (process.env.SMTP_TO) {
+            this.destination = process.env.SMTP_TO;
+        } else {
+            throw new Error("Destination(s) is missing on configuration file");
+        }   
     }
 
     // Metodo para realizar o envio do email
