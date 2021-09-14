@@ -6,11 +6,7 @@
 
 import 'dotenv/config';
 import nodemailer from "nodemailer"
-
-interface IDataEmail {
-    subject: string;
-    message: string;
-}
+import { IDataEmail } from "../interfaces"
 
 class SendEmailService {
 
@@ -21,6 +17,8 @@ class SendEmailService {
     private source: string | undefined;
     private subject: string;
     private message: string;
+
+    public readonly destination: string | undefined;
 
     // construtor
     constructor({ subject, message }: IDataEmail) {
@@ -35,6 +33,7 @@ class SendEmailService {
         this.source = process.env.SMTP_FROM;
         this.subject = subject;
         this.message = message;
+        this.destination = process.env.SMTP_TO;
     }
 
     // Metodo para realizar o envio do email
