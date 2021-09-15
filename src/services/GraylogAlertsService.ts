@@ -7,13 +7,13 @@
 
 import moment from "moment";
 import { SendEmailService } from "./SendEmailService";
-import { IRequest } from "../interfaces";
+import { IRequestGraylog } from "./interfaces";
 
 class GraylogAlertsService {
 
     private message: string = "";
 
-    async execute({ event_title, event_description, backlog }: IRequest): Promise<void> {
+    async execute({ event_title, event_description, backlog }: IRequestGraylog): Promise<void> {
 
         /** Email body */
         backlog.forEach(log => {

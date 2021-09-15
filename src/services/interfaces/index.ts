@@ -2,7 +2,7 @@
  * Author: Jeferson Rodrigues
  * Email: jefersonr.santos@outlook.com
  * Created at: 2021-09-14
- * Updated at: 2021-09-14
+ * Updated at: 2021-09-15
  */
 
 interface IDataEmail {
@@ -15,10 +15,17 @@ interface IModelBacklog {
     message: string;
 }
 
-interface IRequest {
+interface IRequestGraylog {
     event_title: string;
     event_description: string;
     backlog: IModelBacklog[];
 }
 
-export { IDataEmail, IModelBacklog, IRequest }
+interface IRequestGrafana {
+    title: string;
+    message: string;
+    ruleName: string;
+    state: string;
+}
+
+export { IDataEmail, IModelBacklog, IRequestGraylog, IRequestGrafana }

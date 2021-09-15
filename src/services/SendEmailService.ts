@@ -8,7 +8,7 @@
 import 'dotenv/config';
 import { env } from "process";
 import nodemailer from "nodemailer";
-import { IDataEmail } from "../interfaces";
+import { IDataEmail } from "./interfaces";
 
 class SendEmailService {
 
