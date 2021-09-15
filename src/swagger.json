@@ -31,6 +31,32 @@
                     }
                 }
             }
+        },
+        "/grafana/alert": {
+            "post": {
+                "tags": [
+                    "Module Grafana Alert"
+                ],
+                "summary": "Grafana HTTP Notification",
+                "description": "Grafana HTTP POST Notification",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Grafana"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email notification sent successfully"
+                    },
+                    "400": {
+                        "description": "Configuration file is incomplete"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -191,6 +217,68 @@
                     }
                 }
                 
+            }
+        },
+        "Grafana": {
+            "type": "object",
+            "properties": {
+                "dashboardId": {
+                    "type": "number"
+                },
+                "evalMatches": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "value": {
+                                "type": "number"
+                            },
+                            "metric": {
+                                "type": "string"
+                            },
+                            "tags": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "imageUrl": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "number"
+                },
+                "panelId": {
+                    "type": "number"
+                },
+                "ruleId": {
+                    "type": "number"
+                },
+                "ruleName": {
+                    "type": "string"
+                },
+                "ruleUrl": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "properties": {
+                        "tag name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
             }
         }
     }
