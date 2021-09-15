@@ -1,0 +1,197 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Endpoint for Alerts API",
+        "description": "Endpoint for Alerts API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/graylog/alert": {
+            "post": {
+                "tags": [
+                    "Module Graylog Alert"
+                ],
+                "summary": "Graylog HTTP Notification",
+                "description": "Graylog HTTP POST Notification",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Graylog"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email notification sent successfully"
+                    },
+                    "400": {
+                        "description": "Configuration file is incomplete"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Graylog": {
+            "type": "object",
+            "properties": {
+                "event_definition_id": {
+                    "type": "string"
+                },
+                "event_definition_type": {
+                    "type": "string"
+                },
+                "event_definition_title": {
+                    "type": "string"
+                },
+                "event_definition_description": {
+                    "type": "string"
+                },
+                "job_definition_id": {
+                    "type": "string"
+                },
+                "job_trigger_id": {
+                    "type": "string"
+                },
+                "event": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "event_definition_type": {
+                            "type": "string"
+                        },
+                        "event_definition_id": {
+                            "type": "string"
+                        },
+                        "origin_context": {
+                            "type": "boolean"
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "timestamp_processing": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "timerange_start": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "timerange_end": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "streams": {
+                            "type": "array",
+                            "items": {
+                                "type":"string"
+                            }
+                        },
+                        "source_streams": {
+                            "type": "array",
+                            "items": {
+                                "type":["string"]
+                            }
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "source": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "key_tuple": {
+                            "type": "array",
+                            "items": []
+                        },
+                        "key": {
+                            "type": "string"
+                        },
+                        "priority": {
+                            "type": "number"
+                        },
+                        "alert": {
+                            "type": "boolean"
+                        },
+                        "fields": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "backlog": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "index": {
+                                "type": "string"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "source": {
+                                "type": "string",
+                                "format": "ipv4"
+                            },
+                            "stream_ids": {
+                                "type": "array",
+                                "items": []
+                            },
+                            "fields": {
+                                "type": "object",
+                                "properties": {
+                                    "via_input": {
+                                        "type": "string"
+                                    },
+                                    "level": {
+                                        "type": "number"
+                                    },
+                                    "alert": {
+                                        "type": "string"
+                                    },
+                                    "gl2_remote_ip": {
+                                        "type": "string"
+                                    },
+                                    "gl2_remote_port": {
+                                        "type": "number"
+                                    },
+                                    "gl2_message_id": {
+                                        "type": "string"
+                                    },
+                                    "gl2_source_node": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "gl2_source_input": {
+                                        "type": "string"
+                                    },
+                                    "extreme_timestamp": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "facility": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
