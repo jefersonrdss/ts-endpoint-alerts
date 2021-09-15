@@ -1,5 +1,6 @@
 /**
- * Author: Jeferson Rodrigues <jefersonr.santos@outlook.com>
+ * Author: Jeferson Rodrigues
+ * Email: jefersonr.santos@outlook.com
  * Created at: 2021-09-14
  * Updated at: 2021-09-14
  */

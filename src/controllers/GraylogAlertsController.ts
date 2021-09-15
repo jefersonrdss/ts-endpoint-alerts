@@ -1,7 +1,8 @@
 /**
- * Author: Jeferson Rodrigues <jefersonr.santos@outlook.com>
+ * Author: Jeferson Rodrigues
+ * Email: jefersonr.santos@outlook.com
  * Created at: 2021-09-14
- * Updated at: 2021-09-14
+ * Updated at: 2021-09-15
  */
 
 import { Request, Response } from "express";
@@ -16,19 +17,22 @@ class GraylogAlertsController {
             event_definition_title: event_title,
             event_definition_description: event_description,
             backlog
-        } = request.body
+        } = request.body;
 
+        // instance service
         const graylogAlertsService = new GraylogAlertsService();
 
-        try{
+        // execute
+        try {
             await graylogAlertsService.execute({
                 event_title,
                 event_description,
                 backlog
-            })
+            });
 
-            return response.status(200).send() // status code 200 OK
-        } catch(error) {
+            return response.status(200).send();
+        } catch (error) {
+
             return response.status(400).json({ error: error.message });
         }
     }

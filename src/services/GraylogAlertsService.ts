@@ -1,7 +1,8 @@
 /**
- * Author: Jeferson Rodrigues <jefersonr.santos@outlook.com>
+ * Author: Jeferson Rodrigues
+ * Email: jefersonr.santos@outlook.com
  * Created at: 2021-09-14
- * Updated at: 2021-09-14
+ * Updated at: 2021-09-15
  */
 
 import moment from "moment";
@@ -10,42 +11,36 @@ import { IRequest } from "../interfaces";
 
 class GraylogAlertsService {
 
-    private message: string;
-
-    constructor(){
-        this.message = "";
-    }
+    private message: string = "";
 
     async execute({ event_title, event_description, backlog }: IRequest): Promise<void> {
 
-        const now = moment().format("YYYY-MM-DD HH:mm:ss") //data hora atual
-
+        /** Email body */
         backlog.forEach(log => {
-            this.message += `${log.timestamp} ${log.message}<br><br>` // inserindo os logs
+            this.message += `${log.timestamp} ${log.message}<br><br>`; // inserting logs message
         });
 
         const message = `
             <strong><h3>${event_title}</h3></strong>
             <strong><h4>${event_description}</h4></strong><br>
             ${this.message}
-        `
-        //*** fim corpo email */
+        `;
+        /** end email body */ 
 
-        const sendEmailService = new SendEmailService({subject: event_title, message});
-        const destinations = sendEmailService.destination.split(','); // lista de destinos separado por virgula
+        // instance send email
+        const sendEmailService = new SendEmailService({ subject: event_title, message });
 
-        // faz o envio pra todos os emails da lista
-        destinations.forEach(destination => {
+        /** send for all emails on list */
+        const destinations = sendEmailService.destination.split(','); // split list
+        destinations.forEach(async (destination) => {
 
-            // chama metodo async da classe sendEmailService
-            sendEmailService.executeSendEmail(destination).then(() => {
-                console.log(`${now} Alert Graylog ${event_title} - E-mail enviado para: ${destination}`)
-            }).catch((error) => {
+            await sendEmailService.executeSendEmail(destination); // send
 
-                console.error(`ERROR: ${error.message}`) // mensagem de erro
-            })
-        })
-
+            //log on console
+            const now = moment().format("YYYY-MM-DD HH:mm:ss"); //date and hour current
+            console.log(`${now} Alert Graylog ${event_title} - E-mail enviado para: ${destination}`);
+        });
+        /** end send email */
     }
 }
 

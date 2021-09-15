@@ -1,20 +1,22 @@
 /**
- * Author: Jeferson Rodrigues <jefersonr.santos@outlook.com>
+ * Author: Jeferson Rodrigues
+ * Email: <jefersonr.santos@outlook.com>
  * Created at: 2021-09-14
  * Updated at: 2021-09-14
  */
 
 import 'dotenv/config';
+import { env } from "process";
 import nodemailer from "nodemailer";
 import { IDataEmail } from "../interfaces";
 
 class SendEmailService {
 
-    private smtp_server: string | undefined;
-    private smtp_port: string | undefined;
-    private smtp_user: string | undefined;
-    private smtp_pass: string | undefined;
-    private source: string | undefined;
+    private smtp_server: string;
+    private smtp_port: string;
+    private smtp_user: string;
+    private smtp_pass: string;
+    private source: string;
     private subject: string;
     private message: string;
     public  destination: string;
@@ -22,32 +24,29 @@ class SendEmailService {
     // construtor
     constructor({ subject, message }: IDataEmail) {
 
-        // smtp config
-        this.smtp_server = process.env.SMTP_SERVER;
-        this.smtp_port = process.env.SMTP_PORT;
-        this.smtp_user = process.env.SMTP_USER;
-        this.smtp_pass = process.env.SMTP_PASS;
-;
-        // email config
-        this.source = process.env.SMTP_FROM;
+        // verify environments
+        if (env.SMTP_SERVER && env.SMTP_PORT  && env.SMTP_FROM 
+            && env.SMTP_TO && env.SMTP_USER && env.SMTP_PASS) {
+
+            this.smtp_server = env.SMTP_SERVER;
+            this.smtp_port = env.SMTP_PORT;
+            this.source = env.SMTP_FROM;
+            this.destination = env.SMTP_TO;
+            this.smtp_user = env.SMTP_USER;
+            this.smtp_pass = env.SMTP_PASS;
+        } else {
+
+            throw new Error("Configuration file is incomplete");
+        }
+        
         this.subject = subject;
         this.message = message;
-
-        if (process.env.SMTP_TO) {
-            this.destination = process.env.SMTP_TO;
-        } else {
-            throw new Error("Destination(s) is missing on configuration file");
-        }   
     }
 
-    // Metodo para realizar o envio do email
+    // execute send email
     async executeSendEmail(destination: string): Promise<void> {
 
-        if(this.smtp_server === undefined || this.smtp_port === undefined) {
-            throw new Error("Incomplete configuration. SMTP SERVER or PORT is missing on config file")
-        }
-
-        // configs do smtp server
+        // configs smtp server
         const transport = nodemailer.createTransport({
             host: this.smtp_server,
             port: parseInt(this.smtp_port),
@@ -57,13 +56,13 @@ class SendEmailService {
                 pass: this.smtp_pass
             },
             tls: {
-                // desabilita erros para certificado invalido
+                // disable tls verification
                 rejectUnauthorized: false,
                 ciphers: 'TLSv1'
             },
         });
 
-        // enviar o email
+        // send email
         await transport.sendMail({
             from: this.source,
             to: destination,
