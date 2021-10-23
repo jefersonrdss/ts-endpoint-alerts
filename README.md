@@ -120,6 +120,6 @@ SMTP_TO=email1@example.com,email2@example.com
  * Created at: 2021-09-15
  * Updated at: 2021-09-15
  * 
- * Aplicação Backend desenvolvida com Typescript
+ * Aplicação Backend Desenvolvida com Typescript
  */
 ```
