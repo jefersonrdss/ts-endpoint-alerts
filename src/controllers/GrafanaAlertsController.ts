@@ -28,7 +28,7 @@ class GrafanaAlertsController {
 
             return response.status(200).send();
 
-        } catch (error) {
+        } catch (error: any) {
 
             return response.status(400).json({ error: error.message });
         }
