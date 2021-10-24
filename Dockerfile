@@ -1,6 +1,6 @@
 FROM node:lts
 WORKDIR /app
 COPY package*.json ./
-RUN yarn
+RUN yarn install --production
 COPY . .
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
